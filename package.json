@@ -12,7 +12,9 @@
     "lint": "p-tslint --project .",
     "ts": "p-typescript --watch",
     "ts-trace": "p-typescript --traceResolution",
-    "ci": "npm run lint && npm run test:coverage"
+    "ci": "npm run lint && npm run test:coverage",
+    "prepublish": "npm run clean && npm run lint && npm test && npm run build",
+    "postversion": "git push && git push --tags"
   },
   "author": "alekzonder <alekzonder@gmail.com>",
   "license": "MIT",
