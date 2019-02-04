@@ -17,6 +17,10 @@
     "postversion": "git push && git push --tags"
   },
   "author": "alekzonder <alekzonder@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0devs/node-async-pipe.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@0devs/package": "^0.11.0",
