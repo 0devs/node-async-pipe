@@ -1,0 +1,24 @@
+{
+  "name": "@0devs/async-pipe",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/Pipe.d.ts",
+  "scripts": {
+    "test": "p-jest",
+    "test:coverage": "p-jest --coverage",
+    "clean": "rm -rf lib coverage npm-debug.log",
+    "build": "p-typescript",
+    "lint": "p-tslint --project .",
+    "ts": "p-typescript --watch",
+    "ts-trace": "p-typescript --traceResolution"
+  },
+  "author": "alekzonder <alekzonder@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@0devs/package": "^0.10.0",
+    "@types/jest": "^23.3.9",
+    "tslint-sonarts": "^1.8.0"
+  }
+}
