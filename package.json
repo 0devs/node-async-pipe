@@ -18,7 +18,6 @@
   },
   "author": "alekzonder <alekzonder@gmail.com>",
   "license": "MIT",
-  "private": true,
   "devDependencies": {
     "@0devs/package": "^0.11.0",
     "@types/jest": "^23.3.9",
