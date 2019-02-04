@@ -11,7 +11,8 @@
     "build": "p-typescript",
     "lint": "p-tslint --project .",
     "ts": "p-typescript --watch",
-    "ts-trace": "p-typescript --traceResolution"
+    "ts-trace": "p-typescript --traceResolution",
+    "ci": "npm run lint && npm run test:coverage"
   },
   "author": "alekzonder <alekzonder@gmail.com>",
   "license": "MIT",
