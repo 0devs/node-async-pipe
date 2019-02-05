@@ -2,7 +2,7 @@
   "name": "@0devs/async-pipe",
   "version": "0.4.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "lib/Pipe.js",
   "types": "lib/Pipe.d.ts",
   "scripts": {
     "test": "p-jest",
