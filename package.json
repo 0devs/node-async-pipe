@@ -1,6 +1,6 @@
 {
   "name": "@0devs/async-pipe",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "",
   "main": "lib/Pipe.js",
   "types": "lib/Pipe.d.ts",
