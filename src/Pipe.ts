@@ -17,29 +17,29 @@ const chain = (p: PromiseAny, fn: IPipeFn) => {
 };
 
 export function createPipe<T>(...fns: IPipeFn[]) {
-    if (fns.length < 1) {
-        throw Error("pipe requires at least one argument");
+  if (fns.length < 1) {
+    throw Error('pipe requires at least one argument');
+  }
+
+  fns.forEach((fn, i) => {
+    if (typeof fn !== 'function') {
+      throw Error(
+        `pipe requires each argument to be a function. Argument #${i + 1} is of type "${typeof fn}"`,
+      );
     }
+  });
 
-    fns.forEach((fn, i) => {
-        if (typeof fn !== "function") {
-            throw Error(
-              `pipe requires each argument to be a function. Argument #${i + 1} is of type "${typeof fn}"`,
-            );
-        }
-    });
+  // shift out the 1st function for multiple arguments
+  const start = fns.shift();
 
-    // shift out the 1st function for multiple arguments
-    const start = fns.shift();
+  if (!start) {
+    throw Error('pipe requires at least one argument');
+  }
 
-    if (!start) {
-      throw Error("pipe requires at least one argument");
-    }
-
-    return (...args: any): Promise<T> => fns.reduce(
-      chain,
-      start(...args),
-    );
+  return (...args: any): Promise<T> => fns.reduce(
+    chain,
+    start(...args),
+  );
 }
 
 export function pipe<T>(...fns: IPipeFn[]): Promise<T> {
@@ -47,6 +47,7 @@ export function pipe<T>(...fns: IPipeFn[]): Promise<T> {
 }
 
 export function catchAll(fn: IPipeFn) {
+  // eslint-disable-next-line no-param-reassign
   fn.pipeCatch = true;
   return fn;
 }
@@ -55,9 +56,8 @@ export function catchInstanceOf(instanceClass: any, fn: IPipeFn) {
   const catchFn = (error: any) => {
     if (error instanceof instanceClass) {
       return fn(error);
-    } else {
-      throw error;
     }
+    throw error;
   };
 
   catchFn.pipeCatch = true;
@@ -69,9 +69,8 @@ export function catchCode(code: string|number, fn: IPipeFn) {
   const catchFn = (error: any) => {
     if (error && error.code === code) {
       return fn(error);
-    } else {
-      throw error;
     }
+    throw error;
   };
 
   catchFn.pipeCatch = true;
@@ -83,9 +82,8 @@ export function catchInstanceOfAndCode(instanceClass: any, code: string|number, 
   const catchFn = (error: any) => {
     if (error && error instanceof instanceClass && error.code === code) {
       return fn(error);
-    } else {
-      throw error;
     }
+    throw error;
   };
 
   catchFn.pipeCatch = true;

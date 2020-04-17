@@ -5,13 +5,13 @@
   "main": "lib/Pipe.js",
   "types": "lib/Pipe.d.ts",
   "scripts": {
-    "test": "p-jest",
-    "test:coverage": "p-jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "clean": "rm -rf lib coverage npm-debug.log",
-    "build": "p-typescript",
-    "lint": "p-tslint --project .",
-    "ts": "p-typescript --watch",
-    "ts-trace": "p-typescript --traceResolution",
+    "build": "tsc",
+    "lint": "eslint --ext .js,ts ./src",
+    "ts": "tsc --watch",
+    "ts-trace": "tsc --traceResolution",
     "ci": "npm run lint && npm run test:coverage",
     "prepublish": "npm run clean && npm run lint && npm test && npm run build",
     "postversion": "git push && git push --tags"
@@ -23,8 +23,20 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0devs/package": "^0.13.0",
-    "@types/jest": "^24.0.18",
-    "tslint-sonarts": "^1.8.0"
+    "@0devs/package": "^0.18.1",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "jest": "^25.3.0",
+    "ts-jest": "^25.4.0",
+    "tslint-sonarts": "^1.8.0",
+    "typescript": "^3.8.3"
   }
 }

@@ -1,12 +1,14 @@
-import {createPipe, pipe, catchAll, catchInstanceOf, catchCode, catchInstanceOfAndCode} from "./Pipe";
+import {
+  createPipe, pipe, catchAll, catchInstanceOf, catchCode, catchInstanceOfAndCode,
+} from './Pipe';
 
 class TestError {
   public code?: string;
 }
 
-describe("Pipe", () => {
-  describe("createPipe", () => {
-    it("should create and resolve async pipe", () => {
+describe('Pipe', () => {
+  describe('createPipe', () => {
+    it('should create and resolve async pipe', () => {
       const p = createPipe(
         async (s) => s + 1,
         async (s) => s + 1,
@@ -18,36 +20,36 @@ describe("Pipe", () => {
       });
     });
 
-    it("should create and reject async pipe", () => {
+    it('should create and reject async pipe', () => {
       const p = createPipe(
         async (s) => s + 1,
         async (s) => s + 1,
-        async (s) => {
-          throw new Error("reject");
+        async () => {
+          throw new Error('reject');
         },
       );
 
       return p(0)
-        .then((s) => {
-          throw new Error("should reject pipe");
+        .then(() => {
+          throw new Error('should reject pipe');
         })
         .catch((error) => {
           expect(error).toBeInstanceOf(Error);
-          expect(error.message).toEqual("reject");
+          expect(error.message).toEqual('reject');
         });
     });
 
-    it("should throw error if no element passed", () => {
+    it('should throw error if no element passed', () => {
       expect.assertions(2);
       try {
         createPipe();
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual("pipe requires at least one argument");
+        expect(e.message).toEqual('pipe requires at least one argument');
       }
     });
 
-    it("should throw error if pipe element is not a function", () => {
+    it('should throw error if pipe element is not a function', () => {
       expect.assertions(2);
 
       try {
@@ -56,45 +58,43 @@ describe("Pipe", () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
         expect(e.message).toEqual(
-          "pipe requires each argument to be a function. Argument #2 is of type \"number\"",
+          'pipe requires each argument to be a function. Argument #2 is of type "number"',
         );
       }
     });
   });
 
-  describe("pipe", () => {
-    it("should create and run pipe immediately", () => {
-      return pipe(
-        async () => 0,
-        async (s) => s + 1,
-        async (s) => s + 1,
-        async (s) => s + 1,
-      )
-        .then((s) => {
-          expect(s).toEqual(3);
-        });
-    });
+  describe('pipe', () => {
+    it('should create and run pipe immediately', () => pipe(
+      async () => 0,
+      async (s) => s + 1,
+      async (s) => s + 1,
+      async (s) => s + 1,
+    )
+      .then((s) => {
+        expect(s).toEqual(3);
+      }));
   });
 
-  describe("catchAll", () => {
-    it("should catch all pipe error", () => {
+  describe('catchAll', () => {
+    it('should catch all pipe error', () => {
       expect.assertions(2);
 
       return pipe(
         async () => 0,
         async () => {
-          throw new Error("reject");
+          throw new Error('reject');
         },
         catchAll((error) => {
           expect(error).toBeInstanceOf(Error);
-          expect(error.message).toEqual("reject");
+          expect(error.message).toEqual('reject');
         }),
       );
     });
   });
 
-  describe("catchInstanceOf", () => {
-    it("should catch error instance of expected", () => {
+  describe('catchInstanceOf', () => {
+    it('should catch error instance of expected', () => {
       expect.assertions(1);
 
       return pipe(
@@ -108,78 +108,78 @@ describe("Pipe", () => {
       );
     });
 
-    it("should throw error, if error not instance of expected", () => {
+    it('should throw error, if error not instance of expected', () => {
       expect.assertions(2);
 
       return pipe(
         async () => 0,
         async () => {
-          throw new Error("reject");
+          throw new Error('reject');
         },
         catchInstanceOf(TestError, () => 0),
       )
         .catch((error) => {
           expect(error).toBeInstanceOf(Error);
-          expect(error.message).toEqual("reject");
+          expect(error.message).toEqual('reject');
         });
     });
   });
 
-  describe("catchCode", () => {
-    it("should catch error with expected code", () => {
+  describe('catchCode', () => {
+    it('should catch error with expected code', () => {
       expect.assertions(2);
 
       return pipe(
         async () => 0,
         async () => {
           const error = new TestError();
-          error.code = "TEST_CODE";
+          error.code = 'TEST_CODE';
           throw error;
         },
-        catchCode("TEST_CODE", (error) => {
+        catchCode('TEST_CODE', (error) => {
           expect(error).toBeInstanceOf(TestError);
-          expect(error.code).toEqual("TEST_CODE");
+          expect(error.code).toEqual('TEST_CODE');
         }),
       );
     });
 
-    it("should throw error, if error has no expected code", () => {
+    it('should throw error, if error has no expected code', () => {
       expect.assertions(2);
 
       return pipe(
         async () => 0,
         async () => {
-          throw new Error("reject");
+          throw new Error('reject');
         },
-        catchCode("TEST_CODE", () => 0),
+        catchCode('TEST_CODE', () => 0),
       )
         .catch((error) => {
           expect(error).toBeInstanceOf(Error);
-          expect(error.message).toEqual("reject");
+          expect(error.message).toEqual('reject');
         });
     });
   });
 
-  describe("catchInstanceOfAndCode", () => {
-    it("should catch error with expected instance and code", () => {
+  describe('catchInstanceOfAndCode', () => {
+    it('should catch error with expected instance and code', () => {
       expect.assertions(2);
 
       return pipe(
         async () => 0,
-        // tslint:disable-next-line no-identical-functions
+        // eslint-disable-next-line sonarjs/no-identical-functions
         async () => {
           const error = new TestError();
-          error.code = "TEST_CODE";
+          error.code = 'TEST_CODE';
           throw error;
         },
-        catchInstanceOfAndCode(TestError, "TEST_CODE", (error) => {
+        catchInstanceOfAndCode(TestError, 'TEST_CODE', (error) => {
           expect(error).toBeInstanceOf(TestError);
-          expect(error.code).toEqual("TEST_CODE");
+          expect(error.code).toEqual('TEST_CODE');
         }),
       );
     });
 
-    it("should throw error, if error not expected instance and code", () => {
+    it('should throw error, if error not expected instance and code', () => {
       expect.assertions(1);
 
       return pipe(
@@ -187,7 +187,7 @@ describe("Pipe", () => {
         async () => {
           throw new TestError();
         },
-        catchInstanceOfAndCode(TestError, "TEST_CODE", () => 0),
+        catchInstanceOfAndCode(TestError, 'TEST_CODE', () => 0),
       )
         .catch((error) => {
           expect(error).toBeInstanceOf(TestError);
