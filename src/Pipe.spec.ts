@@ -53,6 +53,7 @@ describe('Pipe', () => {
       expect.assertions(2);
 
       try {
+        // eslint-disable-next-line  @typescript-eslint/ban-ts-comment
         // @ts-ignore
         createPipe(async () => 1, 100500);
       } catch (e) {
